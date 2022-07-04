@@ -1,6 +1,8 @@
-#include "boxes.h"
+#include "boxes.cpp"
 #include <stdio.h>
 #include <stdlib.h>
+
+long long delivery(int N, int K, int L, int p[]);
 
 static char _buffer[1024];
 static int _currentChar = 0;

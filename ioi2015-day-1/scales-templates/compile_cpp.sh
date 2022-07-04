@@ -2,4 +2,4 @@
 
 NAME=scales
 
-/usr/bin/g++ -DEVAL -static -O2 -std=c++11 -o $NAME grader.cpp $NAME.cpp
+/usr/bin/g++ -static -O2 -Wall -Wextra -Wshadow -D_GLIBCXX_DEBUG -std=c++11 -o $NAME grader.cpp $NAME.cpp
