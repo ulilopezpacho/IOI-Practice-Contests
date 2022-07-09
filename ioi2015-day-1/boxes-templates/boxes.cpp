@@ -4,7 +4,7 @@
 #define DBG(x) cerr << #x << " = " << x << endl
 
 using namespace std;
-typedef long long ll;
+typedef long long tint;
 
 template<typename T>
 ostream &operator << (ostream &os, vector<T> &v) {
@@ -13,42 +13,40 @@ ostream &operator << (ostream &os, vector<T> &v) {
 		if (i != 0) os << ", ";
 		os << v[i];
 	}
-	os << "]\n";
+	os << "]";
 	return os;
+}
+
+vector<tint> tablaDP (vector<tint> v, int mod) {
+    int ln = v.size();
+    vector<tint> ans (ln);
+    forn (i, v.size()) {
+        if (i < mod) ans[i] = v[i] * 2;
+        else ans[i] = ans[i-mod] + v[i] * 2;
+    }
+    return ans;
 }
 
 long long delivery(int N, int K, int L, int p[]) {
 
-    ll result = 2e18;
-    vector<ll> inVector;
-    forn (i, N) inVector.push_back(p[i]);
-    sort(inVector.begin(), inVector.end());
+    tint ans = 2e18;
 
-    forn (i, N+1) {
-        ll accum = 0;
-        ll costIda = 0;
+    vector<tint> pos (N), posInv (N);
+    forn (i, N) pos[i] = tint(p[i]);
+    forn (i, N) posInv[i] = tint(L - pos[i]);
+    reverse(posInv.begin(), posInv.end());
 
-        for (int j = 0; j < i; j++) {
-            if ((++accum % K) == 0) costIda += 2 * inVector[j];
-        }
-        if (i > 0 && (accum % K) != 0) costIda += 2 * inVector[i-1];
+    vector<tint> tablaDer = tablaDP(pos, K), tablaIzq = tablaDP(posInv, K);
+    
+    tablaDer.insert(tablaDer.begin(), 0);
+    reverse(tablaIzq.begin(), tablaIzq.end());
+    tablaIzq.push_back(0);
 
-        accum = 0;
-        ll costVuelta = 0;
-
-        for (int j = N-1; j >= i; j--) {
-            if ((++accum % K) == 0) costVuelta += 2 * (ll(L) - inVector[j]);
-        }
-        DBG("=====");
-        DBG(costVuelta);
-        DBG(accum%K);
-        if (i < N && (accum % K) != 0) costVuelta += 2 * (ll(L) - inVector[i]);
-
-        DBG(costIda);
-        DBG(costVuelta);
-        result = min(result, costIda + costVuelta);
-        DBG(result);
+    for (int i = 0; i < int(tablaDer.size()); i++) {
+        if (i+K < int(tablaDer.size())) ans = min(ans, tablaDer[i] + L + tablaIzq[i+K]);
+        else ans = min(ans, tablaDer[i] + L);
+        ans = min(ans, tablaDer[i] + tablaIzq[i]);
     }
 
-    return result;
+    return ans;
 }
