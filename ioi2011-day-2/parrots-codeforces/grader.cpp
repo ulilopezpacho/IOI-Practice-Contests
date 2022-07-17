@@ -40,6 +40,7 @@ void output(int y) {
   if (O > N)
     return;
   output_message[O] = y;
+  cout << "output(" << y << ")" << endl;
   O++;
 }
 
@@ -58,9 +59,10 @@ static int check_output() {
 
   if (O != N)
     return 0;
-  for (i = 0; i < N; i++)
+  for (i = 0; i < N; i++) {
     if (message[i] != output_message[i])
       return 0;
+  }
   return 1;
 }
 
