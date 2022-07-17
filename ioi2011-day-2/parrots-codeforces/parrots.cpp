@@ -88,6 +88,7 @@ void encode (int N, int mInmutable[]) {
             if (bitActual == bitsM) {
                 mensajeActual++;
                 bitActual = 0;
+                if (mensajeActual >= N) continue;
             }
 
             if (M[mensajeActual] % 2 == 1) valorAEnviar++;
