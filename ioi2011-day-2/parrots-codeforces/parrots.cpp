@@ -50,7 +50,7 @@ pair<int,int> cantMensajesYBitsDedicadosAOrden (int N) {
     int pow2 = 1;
     int cantMensajes = -1, bitsDedicadosAOrden = -1;
 
-    for (int i = 0; i < 7; i++) {
+    for (int i = 0; i < 8; i++) {
         const int cantMensajesMax = pow2;
         const int cantidadMensajesNecesarios = (cantBitsMensaje+(8-i-1))/(8-i);
 
@@ -68,7 +68,11 @@ pair<int,int> cantMensajesYBitsDedicadosAOrden (int N) {
     return {cantMensajes, bitsDedicadosAOrden};
 }
 
-void encode (int N, int M[]) {
+void encode (int N, int mInmutable[]) {
+    
+    int M[N];
+    forn(i,N) M[i] = mInmutable[i]; 
+
     int cantMensajes, bitsDedicadosAOrden;
     tie(cantMensajes, bitsDedicadosAOrden) = cantMensajesYBitsDedicadosAOrden(N);
 
